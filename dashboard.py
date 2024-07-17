@@ -43,7 +43,7 @@ def dashboard_page(db):
         
         if user_data:
             df = pd.DataFrame(user_data)
-            st.table(df)
+            st.dataframe(df)
         else:
             st.write("No data available for the user.")
             
