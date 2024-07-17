@@ -2,5 +2,3 @@ streamlit
 google-cloud-firestore
 google-auth
 streamlit_option_menu
-pandas
-json
