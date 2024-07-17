@@ -9,6 +9,9 @@ def get_user_data(username, _db):
     user_data_ref = _db.collection("amazon").where("users", "==", username)
     docs = user_data_ref.stream()
     user_data = [doc.df() for doc in docs]
+    print(user_data)
+    u_data = pd.DataFrame(user_data)
+    print(u_data)
     
     # Log the query and results
     if not user_data:
