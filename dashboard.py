@@ -59,7 +59,7 @@ def dashboard_page():
       #      st.dataframe(user_data,column_order=['date','ordered_product_sales','units_ordered'])
      #   query2 = duck.sql("select date,ordered_product_sales,units_ordered from user_data ").df()
       #  st.dataframe(query2, use_container_width=True)  
-        st.write("aaaaaahhhh)
+        st.write("aaaaaahhhh")
 
             
         st.divider()
