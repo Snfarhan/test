@@ -2,9 +2,8 @@ import streamlit as st
 from google.cloud import firestore
 from google.oauth2 import service_account
 import json
-import pandas as pd
-from streamlit_option_menu import option_menu
 from dashboard import dashboard_page
+
 # Initialize session state
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
@@ -34,7 +33,7 @@ def main():
     db = get_db()
 
     if st.session_state.logged_in:
-        dashboard_page(db)
+        dashboard_page()
     else:
         # Streamlit login form
         st.title("Login Form")
