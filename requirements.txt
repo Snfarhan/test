@@ -4,3 +4,4 @@ google-auth
 streamlit_option_menu
 pandas
 pyarrow
+duckdb
