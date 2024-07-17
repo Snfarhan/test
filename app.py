@@ -5,8 +5,6 @@ import json
 import pandas as pd
 from streamlit_option_menu import option_menu
 from dashboard import dashboard_page
-import streamlit_book as stb
-
 # Initialize session state
 if "logged_in" not in st.session_state:
     st.session_state.logged_in = False
