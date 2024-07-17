@@ -21,6 +21,7 @@ def get_user_data(username, _db):
     docs = user_data_ref.stream()
     user_data = [doc.to_dict() for doc in docs]
     user_data_df = pd.DataFrame(user_data)
+    st.dataframe(user_data_df)
     
     # Log the query and results
     if user_data_df.empty:
@@ -55,8 +56,8 @@ def dashboard_page():
         user_data = get_user_data(st.session_state.username, db)
         
         st.write("data available.")
-        query2 = duck.sql("select date,ordered_product_sales,units_ordered from user_data ").df()
-        st.write(query2) 
+      #  query2 = duck.sql("select date,ordered_product_sales,units_ordered from user_data ").df()
+      #  st.write(query2) 
       
             
         st.divider()
