@@ -53,8 +53,11 @@ def dashboard_page():
         user_data = get_user_data(st.session_state.username, db)
         
         if user_data:
-            df = pd.DataFrame(user_data)
-            st.dataframe(df)
+            with st.expander("Data Preview"):
+                df = pd.DataFrame(user_data)
+
+                st.dataframe(df,column_order=['date','ordered_product_sales','units_ordered'])
+
         else:
             st.write("No data available for the user.")
             
