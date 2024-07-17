@@ -54,9 +54,9 @@ def dashboard_page():
         user_data = get_user_data(st.session_state.username, db)
         
   
-        with st.expander("Data Preview"):
+     #   with st.expander("Data Preview"):
             
-            st.dataframe(user_data,column_order=['date','ordered_product_sales','units_ordered'])
+      #      st.dataframe(user_data,column_order=['date','ordered_product_sales','units_ordered'])
         query2 = duck.sql("select date,ordered_product_sales,units_ordered from user_data ").df()
         st.dataframe(query2, use_container_width=True)  
 
