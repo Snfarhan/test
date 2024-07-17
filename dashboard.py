@@ -17,17 +17,15 @@ def get_db():
 @st.cache_data
 def get_user_data(username, _db):
     # Fetch data specific to the user from the 'amazon' collection
-    user_data_ref = _db.collection("amazon").where("users", "==", username)
-    docs = user_data_ref.stream()
-    user_data = [doc.to_dict() for doc in docs]
-    user_data_df = pd.DataFrame(user_data)
-    
+    user_data_ref = _db.collection("amazon").where("users", "==", username).stream()
+    df = pd.DataFrame([m.to_dict() for m in user_data_ref])
+
     
     # Log the query and results
-    if user_data_df.empty:
+    if df.empty:
         st.write(f"No documents found for user: {username}")
     
-    return user_data_df
+    return df
 
 # Dashboard page function
 def dashboard_page():
@@ -55,10 +53,13 @@ def dashboard_page():
         db = get_db()
         user_data = get_user_data(st.session_state.username, db)
         
-        st.write("data available.")
-      #  query2 = duck.sql("select date,ordered_product_sales,units_ordered from user_data ").df()
-      #  st.write(query2) 
-      
+  
+        with st.expander("Data Preview"):
+            
+            st.dataframe(user_data,column_order=['date','ordered_product_sales','units_ordered'])
+        query2 = duck.sql("select date,ordered_product_sales,units_ordered from user_data ").df()
+        st.dataframe(query2, use_container_width=True)  
+
             
         st.divider()
     
