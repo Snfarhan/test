@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import pyarrow as pa
 from streamlit_option_menu import option_menu  # Import the correct function or class
 
 # Define a function to fetch user data from Firestore
