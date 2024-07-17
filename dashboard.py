@@ -19,8 +19,6 @@ def get_user_data(username, _db):
     # Fetch data specific to the user from the 'amazon' collection
     user_data_ref = _db.collection("amazon").where("users", "==", username).stream()
     df = pd.DataFrame([m.to_dict() for m in user_data_ref])
-    st.write(df)
-
     
     # Log the query and results
     if df.empty:
