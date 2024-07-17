@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import json
+import duckdb as duck
 from streamlit_option_menu import option_menu  # Import the correct function or class
 from google.cloud import firestore
 from google.oauth2 import service_account
@@ -57,6 +58,8 @@ def dashboard_page():
                 df = pd.DataFrame(user_data)
 
                 st.dataframe(df,column_order=['date','ordered_product_sales','units_ordered'])
+            query2 = duck.sql("select date,ordered_product_sales,units_ordered from df ").df()
+            st.dataframe(query2, use_container_width=True)  
 
         else:
             st.write("No data available for the user.")
