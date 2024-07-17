@@ -56,7 +56,7 @@ def dashboard_page():
         
         st.write("data available.")
         query2 = duck.sql("select date,ordered_product_sales,units_ordered from user_data ").df()
-        st.write(query2, use_container_width=True) 
+        st.write(query2) 
       
             
         st.divider()
