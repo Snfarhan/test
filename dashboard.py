@@ -54,10 +54,12 @@ def dashboard_page():
         user_data = get_user_data(st.session_state.username, db)
         
         if user_data:
-           # query2 = duck.sql("select date,ordered_product_sales,units_ordered from user_data ").df()
-           # st.dataframe(query2, use_container_width=True)  
+            
             df = pd.DataFrame(user_data)
+            
             st.write("data available.")
+            query2 = duck.sql("select date,ordered_product_sales,units_ordered from df ").df()
+            st.dataframe(query2, use_container_width=True) 
         else:
             st.write("No data available for the user.")
             
