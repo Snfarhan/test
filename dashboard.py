@@ -8,10 +8,7 @@ def get_user_data(username, _db):
     # Fetch data specific to the user from the 'amazon' collection
     user_data_ref = _db.collection("amazon").where("users", "==", username)
     docs = user_data_ref.stream()
-    user_data = [doc.df() for doc in docs]
-    print(user_data)
-    u_data = pd.DataFrame(user_data)
-    print(u_data)
+    user_data = [doc.to_dict() for doc in docs]
     
     # Log the query and results
     if not user_data:
@@ -45,7 +42,8 @@ def dashboard_page(db):
         user_data = get_user_data(st.session_state.username, db)
         
         if user_data:
-            st.dataframe(user_data)
+            df = pd.DataFrame(user_data)
+            st.table(df)
         else:
             st.write("No data available for the user.")
             
