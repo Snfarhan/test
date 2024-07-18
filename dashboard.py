@@ -1,11 +1,11 @@
 import streamlit as st
-import pandas as pd
-import json
-import duckdb as duck
-from streamlit_option_menu import option_menu  # Import the correct function or class
 from google.cloud import firestore
 from google.oauth2 import service_account
+import json
+import pandas as pd
+from streamlit_option_menu import option_menu  # Import the correct function or class
 
+# Define a function to get Firestore database
 def get_db():
     # Authenticate to Firestore with the JSON account key.
     key_dict = json.loads(st.secrets["textkey"])
@@ -17,17 +17,20 @@ def get_db():
 @st.cache_data
 def get_user_data(username, _db):
     # Fetch data specific to the user from the 'amazon' collection
-    user_data_ref = _db.collection("amazon").where("users", "==", username).stream()
-    df = pd.DataFrame([m.to_dict() for m in user_data_ref])
+    user_data_ref = _db.collection("amazon").where("users", "==", username)
+    docs = user_data_ref.stream()
+    user_data = [doc.to_dict() for doc in docs]
     
     # Log the query and results
-    if df.empty:
+    if not user_data:
         st.write(f"No documents found for user: {username}")
     
-    return df
+    return user_data
 
 # Dashboard page function
 def dashboard_page():
+    db = get_db()
+    
     # Sidebar navigation
     st.sidebar.header(f"Hello, {st.session_state['username']}!")
     with st.sidebar:
@@ -40,7 +43,7 @@ def dashboard_page():
     if st.sidebar.button("Logout"):
         st.session_state['logged_in'] = False
         st.session_state['username'] = None
-        st.rerun()
+        st.experimental_rerun()
     
     # Main content based on selected option
     if selected == "Dashboard":
@@ -49,19 +52,13 @@ def dashboard_page():
         st.divider()
         
         st.title(f"Dashboard")
-        db = get_db()
         user_data = get_user_data(st.session_state.username, db)
         
-  
-        with st.expander("Data Preview"):
-            st.write("aaaaaahhhh")
-            st.write(user_data)
-            
-      #      st.dataframe(user_data,column_order=['date','ordered_product_sales','units_ordered'])
-     #   query2 = duck.sql("select date,ordered_product_sales,units_ordered from user_data ").df()
-      #  st.dataframe(query2, use_container_width=True)  
-        st.write("aaaaaahhhh")
-
+        if user_data:
+            df = pd.DataFrame(user_data)
+            st.table(df)
+        else:
+            st.write("No data available for the user.")
             
         st.divider()
     
